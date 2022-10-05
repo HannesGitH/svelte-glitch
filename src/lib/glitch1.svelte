@@ -1,37 +1,73 @@
 <script lang="ts">
+	export let text = 'Hello world';
+	export let delayMs = 0;
+	// type CssAbsoluteUnit = "cm" | "mm" | "in" | "px" | "pt" | "pc";
+	// type CssRelativeUnit = "em" | "ex" | "ch" | "rem" | "vw" | "vh" | "vmin" | "vmax" | "%";
+	// export let height : `${number}${CssAbsoluteUnit|CssRelativeUnit}` = '96pt';
 </script>
 
-<div id="glitched">
-	<slot />
+<div id="glitch-all" style="--delay: {delayMs}ms;">
+	<div id="glitched1" title={text}>
+		{text}
+	</div>
+	<div id="glitched2" title={text}>
+		{text}
+	</div>
+	<div id="glitched3" title={text}>
+		{text}
+	</div>
 </div>
 
 <style lang="scss">
-	@import url('https://fonts.googleapis.com/css?family=Fira+Mono:400');
+	@mixin glitched($delayed: 0ms) {
+		$delay: calc($delayed + var(--delay));
 
-	#glitched {
-		font-size: 96px;
-		font-family: 'Fira Mono', monospace;
-		letter-spacing: -7px;
-		animation: glitch 1s linear infinite;
+		// position: absolute;
 
-		& :before,
-		& :after {
+		// top: -100%;
+		// position: relative;
+		animation: glitch 1s $delay linear infinite;
+
+		&::before,
+		&::after {
 			content: attr(title);
 			position: absolute;
 			left: 0;
+			z-index: -1;
 		}
 
-		& :before {
-			animation: glitchTop 1s linear infinite;
+		&::before {
+			// color: #ff00a2;
+			animation: glitchTop 1s $delay linear infinite;
 			clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
 			-webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
 		}
 
-		& :after {
-			animation: glitchBottom 1.5s linear infinite;
+		&::after {
+			// color: #00b7ff;
+			animation: glitchBottom 1.5s $delay linear infinite;
 			clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
 			-webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
 		}
+	}
+
+	#glitched1 {
+		@include glitched(0ms);
+		position: relative;
+	}
+	#glitched2 {
+		@include glitched(100ms);
+		top: 0%;
+		position: absolute;
+		color: #ff00a2;
+		z-index: -1;
+	}
+	#glitched3 {
+		@include glitched(150ms);
+		position: absolute;
+		top: 0%;
+		color: #00d5ff;
+		z-index: -2;
 	}
 
 	@keyframes glitch {

@@ -1,12 +1,21 @@
 <script lang="ts">
 	export let text = 'Hello world';
 	export let delayMs = 0;
+	export let amountTopPct = 40;
+	export let amountBtmPct = 40;
 	// type CssAbsoluteUnit = "cm" | "mm" | "in" | "px" | "pt" | "pc";
 	// type CssRelativeUnit = "em" | "ex" | "ch" | "rem" | "vw" | "vh" | "vmin" | "vmax" | "%";
 	// export let height : `${number}${CssAbsoluteUnit|CssRelativeUnit}` = '96pt';
 </script>
 
-<div id="glitch-all" style="--delay: {delayMs}ms;">
+<div
+	id="glitch-all"
+	style="
+		--delay: {delayMs}ms;
+		--amount-top: {amountTopPct}%;
+		--amount-btm: {amountBtmPct}%;
+	"
+>
 	<div id="glitched1" title={text}>
 		{text}
 	</div>
@@ -19,12 +28,11 @@
 </div>
 
 <style lang="scss">
-
-	#glitch-all{
+	#glitch-all {
 		position: relative;
 	}
 
-	@mixin glitched($delayed: 0ms, $top-percent: 40%, $bottom-percent: 40%) {
+	@mixin glitched($delayed: 0ms, $top-percent: var(--amount-top), $bottom-percent: var(--amount-top)) {
 		$delay: calc($delayed + var(--delay));
 
 		// position: absolute;

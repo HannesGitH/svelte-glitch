@@ -19,7 +19,12 @@
 </div>
 
 <style lang="scss">
-	@mixin glitched($delayed: 0ms) {
+
+	#glitch-all{
+		position: relative;
+	}
+
+	@mixin glitched($delayed: 0ms, $top-percent: 40%, $bottom-percent: 40%) {
 		$delay: calc($delayed + var(--delay));
 
 		// position: absolute;
@@ -38,16 +43,18 @@
 
 		&::before {
 			// color: #ff00a2;
+			$pct: $bottom-percent;
 			animation: glitchTop 1s $delay linear infinite;
-			clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
-			-webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+			clip-path: polygon(0 0, 100% 0, 100% $pct, 0 $pct);
+			-webkit-clip-path: polygon(0 0, 100% 0, 100% $pct, 0 $pct);
 		}
 
 		&::after {
 			// color: #00b7ff;
+			$pct: calc(100% - $top-percent);
 			animation: glitchBottom 1.5s $delay linear infinite;
-			clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
-			-webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+			clip-path: polygon(0 $pct, 100% $pct, 100% 100%, 0 100%);
+			-webkit-clip-path: polygon(0 $pct, 100% $pct, 100% 100%, 0 100%);
 		}
 	}
 
